@@ -1,17 +1,10 @@
 {
-  "name": "Calculadora de Combustible",
-  "short_name": "Combustible",
+  "name": "Diego Fuel Planner",
+  "short_name": "Fuel Planner",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#f5f7fa",
-  "theme_color": "#102a43",
-  "description": "Calculadora de combustible para planificación de vuelo.",
-  "icons": [
-    {
-      "src": "icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    }
-  ]
+  "background_color": "#edf2f7",
+  "theme_color": "#0b2742",
+  "description": "Planificación de combustible para vuelos",
+  "icons": [{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
 }

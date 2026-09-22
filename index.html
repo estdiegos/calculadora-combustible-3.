@@ -3,129 +3,164 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#102a43">
-<meta name="description" content="Calculadora de combustible para planificación de vuelo">
+<meta name="theme-color" content="#0b2742">
+<meta name="description" content="Diego Fuel Planner — planificación de combustible para vuelos">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg">
-<title>Calculadora de Combustible</title>
+<title>Diego Fuel Planner</title>
 <style>
-:root{font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#102a43;background:#f5f7fa}
-*{box-sizing:border-box}body{margin:0}.app{max-width:760px;margin:auto;padding:16px 14px 34px}
-header{background:#102a43;color:#fff;border-radius:18px;padding:20px;margin-bottom:14px}
-h1{font-size:23px;margin:0 0 5px}h2{font-size:17px;margin:0 0 13px}.sub{opacity:.82;font-size:13px}
-.card{background:#fff;border:1px solid #d9e2ec;border-radius:16px;padding:15px;margin-bottom:13px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-label{display:block;font-size:12px;font-weight:700;color:#627d98;margin-bottom:5px}
-input,select,button{font:inherit}input,select{width:100%;min-height:44px;border:1px solid #bcccdc;border-radius:10px;padding:9px 10px;background:#fff;color:#102a43;font-size:16px}
-.row{display:grid;grid-template-columns:1.2fr .85fr .85fr;gap:8px;align-items:end;margin-bottom:9px}
-.row .name input{font-size:14px}.out{min-height:44px;border:1px solid #d9e2ec;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:750;background:#f8fafc}
-.total{background:#102a43;color:#fff;border-radius:16px;padding:17px;margin-top:13px}.totalline{display:flex;justify-content:space-between;gap:12px;align-items:end;padding:8px 0}.totalline+.totalline{border-top:1px solid rgba(255,255,255,.2)}
-.big{font-size:27px;font-weight:850}.muted{font-size:12px;opacity:.72}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
-button{min-height:46px;border:0;border-radius:11px;padding:10px 12px;font-weight:750;cursor:pointer}
-.primary{background:#1f7a8c;color:#fff}.secondary{background:#e6eef5;color:#102a43}
-.notice{font-size:12px;color:#627d98;margin-top:9px;min-height:16px}
-@media(max-width:560px){.grid{grid-template-columns:1fr 1fr}.row{grid-template-columns:1.15fr .8fr .8fr}.app{padding:10px 10px 25px}}
+:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#102a43;background:#edf2f7;--navy:#0b2742;--blue:#1687d9;--cyan:#1f8fa3;--line:#d9e2ec;--soft:#f5f8fb;--green:#138a4b;--red:#c62828;--muted:#627d98}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#edf2f7,#dfe8f1);min-height:100vh}.app{max-width:1180px;margin:auto;padding:14px 14px 30px}
+header{background:linear-gradient(115deg,#081d31,#123b5c);color:white;border-radius:22px;padding:18px 20px;margin-bottom:14px;display:flex;justify-content:space-between;gap:16px;align-items:center;box-shadow:0 10px 28px rgba(11,39,66,.18)}
+.brand{display:flex;align-items:center;gap:14px}.brand-icon{font-size:42px}.brand h1{font-size:27px;margin:0;font-weight:900;letter-spacing:.2px}.brand h1 span{color:#55b4ff}.brand p{margin:3px 0 0;font-size:13px;opacity:.82}.clock{text-align:right;font-size:12px;opacity:.9}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.card{background:rgba(255,255,255,.97);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:0 4px 16px rgba(16,42,67,.06)}h2{font-size:17px;margin:0 0 13px;color:#12385a}.section-title{display:flex;align-items:center;gap:8px}.section-title .num{font-size:19px}
+.fields{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}label{display:block;font-size:11px;font-weight:850;color:#526f8b;margin:0 0 5px;text-transform:uppercase;letter-spacing:.2px}input,select,button{font:inherit}input,select{width:100%;min-height:43px;border:1px solid #bcccdc;border-radius:10px;padding:9px 10px;background:white;color:#102a43;font-size:15px;outline:none}input:focus,select:focus{border-color:#1687d9;box-shadow:0 0 0 3px rgba(22,135,217,.12)}
+.params{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.route-grid{display:grid;grid-template-columns:1fr 56px 1fr;gap:10px;align-items:end}.swap{height:43px;border-radius:10px;border:0;background:#edf5fb;color:#0b5f9e;font-size:23px;font-weight:900}.subname{font-size:12px;color:#6b8298;margin-top:4px;min-height:17px}.distance-box{margin-top:11px}.distance-value{background:#f2f7fb;border:1px solid #d7e3ee;border-radius:10px;min-height:47px;display:flex;align-items:center;padding:0 12px;font-size:22px;font-weight:900;color:#0b2742}.picker{position:relative}.suggestions{position:absolute;left:0;right:0;top:72px;background:#fff;border:1px solid #cbd8e5;border-radius:10px;box-shadow:0 10px 25px rgba(16,42,67,.18);z-index:50;max-height:260px;overflow:auto}.suggestion{padding:10px 12px;cursor:pointer;border-bottom:1px solid #eef2f6}.suggestion:last-child{border-bottom:0}.suggestion:hover{background:#f2f7fb}.s-code{font-weight:900}.s-detail{font-size:12px;color:#627d98;margin-top:2px}
+.alt-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.alt-card{background:#f8fafc;border:1px solid #d9e2ec;border-radius:12px;padding:11px}.alt-head{display:flex;justify-content:space-between;gap:8px;align-items:center}.tag{font-size:10px;font-weight:900;padding:4px 7px;border-radius:999px;background:#e6f5ee;color:#08733c}.tag.warn{background:#fff3cd;color:#8a6200}.tag.bad{background:#fdeaea;color:#b71c1c}.radio-row{display:flex;gap:18px;margin-top:12px;flex-wrap:wrap}.radio-row label{display:flex;align-items:center;gap:7px;text-transform:none;font-size:14px;color:#163a59}.radio-row input{width:auto;min-height:auto}
+.table{width:100%;border-collapse:collapse;font-size:13px}.table th{background:#eef5fa;color:#2c5677;text-align:left;padding:9px}.table td{padding:9px;border-bottom:1px solid #e8eef4}.right{text-align:right}.strong{font-weight:900}.total{background:linear-gradient(115deg,#0b2742,#123b5c);color:white;border-radius:15px;padding:14px;margin-top:13px}.total-line{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:7px 0}.total-line+.total-line{border-top:1px solid rgba(255,255,255,.18)}.big{font-size:25px;font-weight:950}.muted{font-size:11px;opacity:.72}.available{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:10px;align-items:end}.status{min-height:72px;border-radius:12px;padding:11px;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:900}.status.ok{background:#e7f7ee;color:#08733c;border:1px solid #bfe8d1}.status.bad{background:#fdeaea;color:#b71c1c;border:1px solid #f3c3c3}.margin{min-height:43px;border-radius:10px;background:#edf8f2;border:1px solid #c7ead6;color:#08733c;display:flex;align-items:center;justify-content:center;font-weight:950;font-size:18px}.margin.bad{background:#fff0f0;border-color:#f3c3c3;color:#b71c1c}
+.actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-top:12px}button{min-height:45px;border:0;border-radius:10px;padding:9px 12px;font-weight:850;cursor:pointer}.primary{background:#1687d9;color:#fff}.secondary{background:#e6eef5;color:#102a43}.danger{background:#fff;color:#c62828;border:1px solid #efb2b2}.notice{font-size:12px;color:var(--muted);margin-top:8px;min-height:17px}.warnbox{background:#fff8e7;border:1px solid #f0d58a;color:#735a00;border-radius:10px;padding:9px;font-size:12px;margin-top:10px}.source-note{font-size:10px;color:#73879b;margin-top:8px;line-height:1.4}
+.history-head{display:flex;justify-content:space-between;gap:10px;align-items:center}.history-scroll{overflow:auto}.history-actions{display:flex;gap:5px}.mini{min-height:32px;padding:5px 8px;font-size:11px}.footer{text-align:center;color:#627d98;font-size:11px;padding:5px}.hidden{display:none}
+@media(max-width:850px){.grid2{grid-template-columns:1fr}.fields,.params{grid-template-columns:1fr 1fr}.available{grid-template-columns:1fr 1fr}.status{grid-column:1/-1}}
+@media(max-width:560px){.app{padding:9px}.brand h1{font-size:21px}.brand-icon{font-size:32px}.clock{display:none}.fields,.params,.alt-grid{grid-template-columns:1fr}.route-grid{grid-template-columns:1fr 44px 1fr}.actions{grid-template-columns:1fr}.table{font-size:11px}.table th,.table td{padding:7px}}
+@media print{body{background:white}.app{max-width:none;padding:0}header{box-shadow:none}.no-print{display:none!important}.card{box-shadow:none;break-inside:avoid}.grid2{grid-template-columns:1fr 1fr}.footer{display:none}}
 </style>
 </head>
 <body>
 <main class="app">
 <header>
-  <h1>✈️ Calculadora de Combustible</h1>
-  <div class="sub">Planificación rápida · NM → tiempo → galones</div>
+  <div class="brand"><div class="brand-icon">✈️</div><div><h1>DIEGO <span>FUEL PLANNER</span></h1><p>Planificación de combustible para pilotos</p></div></div>
+  <div class="clock" id="clock"></div>
 </header>
 
+<div class="grid2">
 <section class="card">
-<h2>Parámetros</h2>
-<div class="grid">
-  <div><label>VELOCIDAD (NM/h)</label><input id="speed" type="number" inputmode="decimal" value="130" min="1" step=".1"></div>
-  <div><label>CONSUMO (GL/h)</label><input id="burn" type="number" inputmode="decimal" value="100" min="0" step=".1"></div>
-  <div><label>TAXEO (GL)</label><input id="taxi" type="number" inputmode="decimal" value="10" min="0" step=".1"></div>
-  <div><label>RESERVA (% O-D)</label><input id="reserve" type="number" inputmode="decimal" value="5" min="0" step=".1"></div>
-  <div><label>SOSTENIMIENTO (min)</label><input id="hold" type="number" inputmode="decimal" value="45" min="0" step="1"></div>
-  <div><label>CONTINGENCIA (GL)</label><input id="cont" type="number" inputmode="decimal" value="0" min="0" step="1"></div>
+<h2 class="section-title"><span class="num">1.</span> INFORMACIÓN DEL VUELO</h2>
+<div class="fields">
+<div><label>Aeronave</label><select id="aircraft"><option>DC-3</option><option>PA-31 Navajo</option><option>PA-34 Seneca</option><option>Otra</option></select></div>
+<div><label>Matrícula</label><input id="registration" placeholder="HK-XXXX"></div>
+<div><label>Piloto</label><input id="pilot" placeholder="Nombre del piloto"></div>
+<div><label>Fecha</label><input id="date" type="date"></div>
+<div><label>N° de vuelo</label><input id="flightNo" placeholder="001"></div>
+<div><label>Operación</label><select id="operation"><option>Comercial</option><option>Privada</option><option>Entrenamiento</option><option>Otra</option></select></div>
 </div>
 </section>
 
 <section class="card">
-<h2>Ruta</h2>
-<div class="row">
-  <div><label>CONCEPTO</label></div><div><label>TIEMPO</label></div><div><label>GALONES</label></div>
+<h2 class="section-title"><span class="num">2.</span> PARÁMETROS DE CÁLCULO</h2>
+<div class="params">
+<div><label>Velocidad (NM/h)</label><input id="speed" type="number" value="130" min="1" step=".1"></div>
+<div><label>Consumo (GL/h)</label><input id="burn" type="number" value="100" min="0" step=".1"></div>
+<div><label>Taxeo (GL)</label><input id="taxi" type="number" value="10" min="0" step=".1"></div>
+<div><label>Reserva (% O-D)</label><input id="reserve" type="number" value="5" min="0" step=".1"></div>
+<div><label>Sostenimiento (min)</label><input id="hold" type="number" value="45" min="0" step="1"></div>
+<div><label>Contingencia (GL)</label><input id="cont" type="number" value="0" min="0" step="1"></div>
 </div>
-<div class="row">
-  <div class="name"><label>ORIGEN - DESTINO</label><input id="odName" value="SKVV-SKTR"></div>
-  <div id="odTime" class="out">00:00</div><div id="odGl" class="out">0.00</div>
+</section>
 </div>
-<div class="row">
-  <div class="name"><label>ALTERNO MÁS LEJANO</label><input id="farName" value="SKMU"></div>
-  <div id="farTime" class="out">00:00</div><div id="farGl" class="out">0.00</div>
+
+<section class="card">
+<h2 class="section-title"><span class="num">3.</span> RUTA</h2>
+<div class="route-grid">
+<div class="picker"><label>Origen (OACI)</label><input id="origin" autocomplete="off" placeholder="SKVV" maxlength="4"><div id="originSug" class="suggestions hidden"></div><div id="originInfo" class="subname"></div></div>
+<button class="swap no-print" id="swapBtn" title="Intercambiar origen y destino">⇄</button>
+<div class="picker"><label>Destino (OACI)</label><input id="dest" autocomplete="off" placeholder="SKUC" maxlength="4"><div id="destSug" class="suggestions hidden"></div><div id="destInfo" class="subname"></div></div>
 </div>
-<div class="row">
-  <div class="name"><label>ALTERNO MÁS CERCANO</label><input id="nearName" value="SKLP"></div>
-  <div id="nearTime" class="out">00:00</div><div id="nearGl" class="out">0.00</div>
+<div class="distance-box"><label>DISTANCIA (NM) ORIGEN - DESTINO:</label><div id="odNm" class="distance-value">—</div></div>
+<div class="alt-grid">
+<div class="alt-card picker"><div class="alt-head"><label>Alterno 1 (más cercano)</label><span id="nearTag" class="tag">—</span></div><input id="alt1" autocomplete="off" placeholder="OACI"><div id="alt1Sug" class="suggestions hidden"></div><div id="alt1Info" class="subname"></div><div id="alt1Nm" class="subname"></div></div>
+<div class="alt-card picker"><div class="alt-head"><label>Alterno 2 (más lejano)</label><span id="farTag" class="tag">—</span></div><input id="alt2" autocomplete="off" placeholder="OACI"><div id="alt2Sug" class="suggestions hidden"></div><div id="alt2Info" class="subname"></div><div id="alt2Nm" class="subname"></div></div>
 </div>
-<p class="notice">Introduce las millas náuticas abajo. Puedes usar decimales.</p>
-<div class="grid">
-  <div><label>NM ORIGEN - DESTINO</label><input id="od" type="number" inputmode="decimal" value="372" min="0" step=".1"></div>
-  <div><label>NM ALTERNO MÁS LEJANO</label><input id="far" type="number" inputmode="decimal" value="115" min="0" step=".1"></div>
-  <div><label>NM ALTERNO MÁS CERCANO</label><input id="near" type="number" inputmode="decimal" value="46" min="0" step=".1"></div>
-  <div><label>ALTERNATIVO A UTILIZAR</label><select id="altChoice"><option value="far">Más lejano</option><option value="near">Más cercano</option></select></div>
+<div class="radio-row">
+<label><input type="radio" name="altChoice" value="near" checked> Utilizar alterno 1 (más cercano)</label>
+<label><input type="radio" name="altChoice" value="far"> Utilizar alterno 2 (más lejano)</label>
 </div>
+<div id="routeWarn" class="warnbox hidden"></div>
+<div id="manualBox" class="warnbox hidden"><b>Distancia manual</b><div class="params" style="margin-top:8px"><div><label>NM O-D manual</label><input id="odManual" type="number" min="0" step=".1"></div><div><label>NM alterno 1 manual</label><input id="alt1Manual" type="number" min="0" step=".1"></div><div><label>NM alterno 2 manual</label><input id="alt2Manual" type="number" min="0" step=".1"></div></div></div>
+<div class="source-note">La distancia automática se calcula por gran círculo usando las coordenadas disponibles en la base. Si un aeródromo no tiene coordenadas en la base, puedes introducir la NM manualmente.</div>
+</section>
+
+<div class="grid2">
+<section class="card">
+<h2 class="section-title"><span class="num">4.</span> RESULTADOS DE LA RUTA</h2>
+<table class="table"><thead><tr><th>TRAMO</th><th>OACI</th><th class="right">NM</th><th class="right">TIEMPO</th><th class="right">GALONES</th></tr></thead><tbody>
+<tr><td>Origen - Destino</td><td id="routeOdCode">—</td><td id="routeOdNm" class="right strong">—</td><td id="routeOdTime" class="right strong">00:00</td><td id="routeOdGl" class="right strong">0,00</td></tr>
+<tr><td>Alterno 1</td><td id="routeAlt1Code">—</td><td id="routeAlt1Nm" class="right">—</td><td id="routeAlt1Time" class="right">00:00</td><td id="routeAlt1Gl" class="right">0,00</td></tr>
+<tr><td>Alterno 2</td><td id="routeAlt2Code">—</td><td id="routeAlt2Nm" class="right">—</td><td id="routeAlt2Time" class="right">00:00</td><td id="routeAlt2Gl" class="right">0,00</td></tr>
+</tbody></table>
 </section>
 
 <section class="card">
-<h2>Resumen</h2>
-<div class="row"><div><b>ORIGEN - DESTINO</b></div><div></div><div id="rOd" class="out">0.00 GL</div></div>
-<div class="row"><div><b id="rAltLabel">ALTERNATIVO</b></div><div></div><div id="rAlt" class="out">0.00 GL</div></div>
-<div class="row"><div><b>TAXEO</b></div><div></div><div id="rTaxi" class="out">0.00 GL</div></div>
-<div class="row"><div><b>RESERVA</b></div><div></div><div id="rReserve" class="out">0.00 GL</div></div>
-<div class="row"><div><b>SOSTENIMIENTO</b></div><div></div><div id="rHold" class="out">0.00 GL</div></div>
-<div class="row"><div><b>CONTINGENCIA</b></div><div></div><div id="rCont" class="out">0.00 GL</div></div>
-<div class="total">
-  <div class="totalline"><div><b>MÍNIMO REQUERIDO</b><div class="muted">O-D + alterno + taxeo + reserva</div></div><div id="minimum" class="big">0 GL</div></div>
-  <div class="totalline"><div><b>COMBUSTIBLE TOTAL ABORDO</b><div class="muted">+ sostenimiento + contingencia</div></div><div id="total" class="big">0 GL</div></div>
+<h2 class="section-title"><span class="num">5.</span> RESUMEN DE COMBUSTIBLE</h2>
+<table class="table"><tbody>
+<tr><td>Origen - Destino</td><td id="rOd" class="right strong">0,00 GL</td></tr>
+<tr><td id="rAltLabel">Alternativo</td><td id="rAlt" class="right strong">0,00 GL</td></tr>
+<tr><td>Taxeo</td><td id="rTaxi" class="right">0,00 GL</td></tr>
+<tr><td>Reserva</td><td id="rReserve" class="right">0,00 GL</td></tr>
+<tr><td>Sostenimiento</td><td id="rHold" class="right">0,00 GL</td></tr>
+<tr><td>Contingencia</td><td id="rCont" class="right">0,00 GL</td></tr>
+</tbody></table>
+<div class="total"><div class="total-line"><div><b>MÍNIMO REQUERIDO</b><div class="muted">O-D + alterno + taxeo + reserva</div></div><div id="minimum" class="big">0,00 GL</div></div><div class="total-line"><div><b>COMBUSTIBLE TOTAL ABORDO</b><div class="muted">+ sostenimiento + contingencia</div></div><div id="total" class="big">0,00 GL</div></div></div>
+</section>
 </div>
-<div class="actions"><button class="secondary" id="newBtn">Nuevo vuelo</button><button class="primary" id="saveBtn">Guardar cálculo</button></div>
+
+<section class="card">
+<h2 class="section-title"><span class="num">6.</span> COMBUSTIBLE DISPONIBLE Y MARGEN</h2>
+<div class="available">
+<div><label>Combustible disponible (GL)</label><input id="availableFuel" type="number" inputmode="decimal" min="0" step=".1" placeholder="Ej. 500"></div>
+<div><label>Margen</label><div id="margin" class="margin">—</div></div>
+<div id="status" class="status">Ingrese el combustible disponible</div>
+</div>
+<div class="actions no-print"><button class="secondary" id="newBtn">↻ Nuevo vuelo</button><button class="primary" id="saveBtn">▣ Guardar cálculo</button><button class="secondary" id="pdfBtn">▤ Generar PDF</button></div>
 <div id="msg" class="notice"></div>
 </section>
 
 <section class="card">
-<h2>Último cálculo guardado</h2>
-<div id="history" class="muted">Todavía no hay cálculos guardados.</div>
+<div class="history-head"><h2 class="section-title"><span class="num">7.</span> HISTORIAL DE VUELOS (ÚLTIMOS 20)</h2><button class="danger mini no-print" id="clearHistory">🗑 Eliminar historial</button></div>
+<div class="history-scroll"><table class="table"><thead><tr><th>#</th><th>FECHA</th><th>AERONAVE</th><th>RUTA</th><th class="right">NM O-D</th><th>ALTERNO</th><th class="right">COMB. REQ.</th><th class="right">COMB. ABORDO</th><th class="right">MARGEN</th><th>ACCIONES</th></tr></thead><tbody id="historyBody"></tbody></table></div>
+<div id="emptyHistory" class="notice">Todavía no hay vuelos guardados.</div>
 </section>
+
+<footer class="footer">DIEGO FUEL PLANNER v2.0 · Datos de aeródromos basados principalmente en AIP Colombia AD 1.3. Coordenadas/IATA complementarias identificadas en la ficha del aeropuerto cuando se indican. Herramienta de planificación: verificar siempre contra AIP vigente, AFM/POH, SOP y requisitos aplicables.</footer>
 </main>
+<script src="airports.js"></script>
 <script>
-const $=id=>document.getElementById(id);
-const n=id=>Math.max(0,Number($(id).value)||0);
-const fmt=x=>x.toLocaleString("es-CO",{minimumFractionDigits:2,maximumFractionDigits:2});
-function t(min){let h=Math.floor(min/60),m=Math.round(min%60);if(m===60){h++;m=0}return String(h).padStart(2,"0")+":"+String(m).padStart(2,"0")}
-function calc(){
- const speed=n("speed"),burn=n("burn"); if(!speed){$("msg").textContent="La velocidad debe ser mayor que 0.";return}
- const od=n("od"),far=n("far"),near=n("near");
- const data={od:od/speed*burn,far:far/speed*burn,near:near/speed*burn};
- [["od",od],["far",far],["near",near]].forEach(([k,v])=>{$(k+"Time").textContent=t(v/speed*60);$(k+"Gl").textContent=fmt(data[k])});
- const taxi=n("taxi"), reserve=data.od*n("reserve")/100, hold=n("hold")/60*burn, cont=n("cont");
- const alt=$("altChoice").value==="far"?data.far:data.near;
- const altName=$("altChoice").value==="far"?$("farName").value:$("nearName").value;
- const minimum=data.od+alt+taxi+reserve,total=minimum+hold+cont;
- $("rOd").textContent=fmt(data.od)+" GL";$("rAltLabel").textContent="ALTERNATIVO "+altName;$("rAlt").textContent=fmt(alt)+" GL";
- $("rTaxi").textContent=fmt(taxi)+" GL";$("rReserve").textContent=fmt(reserve)+" GL";$("rHold").textContent=fmt(hold)+" GL";$("rCont").textContent=fmt(cont)+" GL";
- $("minimum").textContent=fmt(minimum)+" GL";$("total").textContent=fmt(total)+" GL";$("msg").textContent="";
- return {data,minimum,total,altName,odName:$("odName").value};
+const $=id=>document.getElementById(id);const fmt=x=>Number(x||0).toLocaleString('es-CO',{minimumFractionDigits:2,maximumFractionDigits:2});
+const AIRPORTS=window.AIRPORTS||[];const byCode=new Map(AIRPORTS.map(a=>[a.icao,a]));
+const dateNow=new Date();$('date').value=new Date(dateNow.getTime()-dateNow.getTimezoneOffset()*60000).toISOString().slice(0,10);
+function num(id){return Math.max(0,Number($(id).value)||0)}
+function timeFromNm(nm){const s=num('speed');if(!s)return '00:00';let min=nm/s*60,h=Math.floor(min/60),m=Math.round(min%60);if(m===60){h++;m=0}return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')}
+function greatCircle(a,b){if(!a||!b||a.lat==null||b.lat==null)return null;const R=3440.065,p=Math.PI/180;const dlat=(b.lat-a.lat)*p,dlon=(b.lon-a.lon)*p;const q=Math.sin(dlat/2)**2+Math.cos(a.lat*p)*Math.cos(b.lat*p)*Math.sin(dlon/2)**2;return R*2*Math.asin(Math.min(1,Math.sqrt(q)))}
+function findAirport(v){v=(v||'').trim().toUpperCase();if(!v)return null;return byCode.get(v)||AIRPORTS.find(a=>a.iata&&a.iata.toUpperCase()===v)||AIRPORTS.find(a=>(a.name+' '+a.city+' '+a.department).toUpperCase().includes(v))||null}
+function suggestions(inputId,sugId,infoId){const input=$(inputId),box=$(sugId);function render(){const q=input.value.trim().toUpperCase();if(!q){box.classList.add('hidden');return}const arr=AIRPORTS.filter(a=>(a.icao+' '+(a.iata||'')+' '+a.name+' '+a.city+' '+a.department).toUpperCase().includes(q)).slice(0,10);box.innerHTML=arr.map(a=>`<div class="suggestion" data-code="${a.icao}"><div><span class="s-code">${a.icao}</span>${a.iata?` · ${a.iata}`:''}</div><div class="s-detail">${a.name}${a.city?' · '+a.city:''}${a.department?' · '+a.department:''}</div></div>`).join('');box.classList.toggle('hidden',!arr.length);box.querySelectorAll('.suggestion').forEach(el=>el.addEventListener('click',()=>{input.value=el.dataset.code;box.classList.add('hidden');refresh()}));}
+input.addEventListener('input',()=>{render();refresh()});input.addEventListener('focus',render);document.addEventListener('click',e=>{if(!box.contains(e.target)&&e.target!==input)box.classList.add('hidden')});}
+['origin','dest','alt1','alt2'].forEach(id=>suggestions(id,id+'Sug',id+'Info'));
+function setInfo(id,infoId,nmId){const a=findAirport($(id).value);$(infoId).textContent=a?`${a.name}${a.city?' · '+a.city:''}`:'';if(nmId)$(nmId).textContent=a&&a.lat!=null?'Coordenadas disponibles · NM automática':'NM manual si no hay coordenadas';return a}
+function manualDistance(key){const el=$(key+'Manual');return el&&el.value!==''?Number(el.value):null}
+function distanceFor(a,b,key){const g=greatCircle(a,b);return g!=null?g:manualDistance(key)}
+function refresh(){
+ const o=setInfo('origin','originInfo'),d=setInfo('dest','destInfo'),a1=setInfo('alt1','alt1Info','alt1Nm'),a2=setInfo('alt2','alt2Info','alt2Nm');
+ const od=distanceFor(o,d,'od'),n1=distanceFor(d,a1,'alt1'),n2=distanceFor(d,a2,'alt2');
+ $('manualBox').classList.toggle('hidden',od!=null&&n1!=null&&n2!=null);['od','alt1','alt2'].forEach(k=>$(k+'Manual').classList.toggle('hidden', (k==='od'?od:k==='alt1'?n1:n2)!=null));
+ $('odNm').textContent=od!=null?fmt(od)+' NM':'—';$('routeOdCode').textContent=(o?.icao||'—')+' → '+(d?.icao||'—');$('routeOdNm').textContent=od!=null?fmt(od):'—';$('routeOdTime').textContent=od!=null?timeFromNm(od):'00:00';
+ const calcRow=(prefix,nm)=>{$('route'+prefix+'Nm').textContent=nm!=null?fmt(nm):'—';$('route'+prefix+'Time').textContent=nm!=null?timeFromNm(nm):'00:00';const gl=nm!=null?nm/num('speed')*num('burn'):0;$('route'+prefix+'Gl').textContent=fmt(gl)};
+ $('routeAlt1Code').textContent=a1?.icao||'—';$('routeAlt2Code').textContent=a2?.icao||'—';calcRow('Alt1',n1);calcRow('Alt2',n2);calcFuel(od,n1,n2,o,d,a1,a2);
+ if(n1!=null&&n2!=null){$('nearTag').textContent=n1<=n2?'MÁS CERCANO':'REVISAR ORDEN';$('farTag').textContent=n2>=n1?'MÁS LEJANO':'REVISAR ORDEN';$('nearTag').className='tag '+(n1<=n2?'':'warn');$('farTag').className='tag '+(n2>=n1?'':'warn');$('routeWarn').classList.toggle('hidden',n1<=n2&&n2>=n1);$('routeWarn').textContent=n1<=n2&&n2>=n1?'':'Las distancias indican que los alternos están invertidos respecto a las etiquetas. Puedes intercambiarlos.'}else{$('nearTag').textContent='—';$('farTag').textContent='—';$('routeWarn').classList.add('hidden')}
 }
-function snapshot(){return calc()}
-function save(){
- const s=snapshot(); if(!s)return;
- const item={fecha:new Date().toLocaleString("es-CO"),ruta:s.odName,total:s.total,minimo:s.minimum,alterno:s.altName};
- localStorage.setItem("fuel_last",JSON.stringify(item)); renderHistory(item); $("msg").textContent="Cálculo guardado en este dispositivo.";
+function calcFuel(od,n1,n2,o,d,a1,a2){const speed=num('speed'),burn=num('burn');if(!speed){$('msg').textContent='La velocidad debe ser mayor que 0.';return}const odGl=od!=null?od/speed*burn:0;const altChoice=document.querySelector('input[name="altChoice"]:checked')?.value||'near';const alt=altChoice==='near'?n1:n2;const altGl=alt!=null?alt/speed*burn:0;const taxi=num('taxi'),reserve=odGl*num('reserve')/100,hold=num('hold')/60*burn,cont=num('cont');const minimum=odGl+altGl+taxi+reserve,total=minimum+hold+cont;
+ $('rOd').textContent=fmt(odGl)+' GL';$('rAltLabel').textContent='Alternativo '+(altChoice==='near'?(a1?.icao||''):(a2?.icao||''));$('rAlt').textContent=fmt(altGl)+' GL';$('rTaxi').textContent=fmt(taxi)+' GL';$('rReserve').textContent=fmt(reserve)+' GL';$('rHold').textContent=fmt(hold)+' GL';$('rCont').textContent=fmt(cont)+' GL';$('minimum').textContent=fmt(minimum)+' GL';$('total').textContent=fmt(total)+' GL';
+ const av=$('availableFuel').value===''?null:num('availableFuel');if(av==null){$('margin').textContent='—';$('margin').className='margin';$('status').textContent='Ingrese el combustible disponible';$('status').className='status'}else{const m=av-total;$('margin').textContent=(m>=0?'+':'')+fmt(m)+' GL';$('margin').className='margin '+(m>=0?'':'bad');$('status').textContent=m>=0?'✓ COMBUSTIBLE SUFICIENTE':'⚠ COMBUSTIBLE INSUFICIENTE';$('status').className='status '+(m>=0?'ok':'bad')}
+ window.currentCalc={od,n1,n2,odGl,altGl,taxi,reserve,hold,cont,minimum,total,altChoice,origin:o?.icao||'',dest:d?.icao||'',alt1:a1?.icao||'',alt2:a2?.icao||'',available:$('availableFuel').value===''?null:num('availableFuel')};
 }
-function renderHistory(item){$("history").innerHTML="<b>"+item.ruta+"</b><br>"+item.fecha+"<br>Mínimo requerido: <b>"+fmt(item.minimo)+" GL</b><br>Total abordo: <b>"+fmt(item.total)+" GL</b><br>Alterno: "+item.alterno}
-function fresh(){["od","far","near"].forEach(id=>$(id).value="");$("cont").value=0;calc();$("msg").textContent="Nuevo vuelo listo."}
-document.querySelectorAll("input,select").forEach(x=>x.addEventListener("input",calc));
-document.querySelectorAll("select").forEach(x=>x.addEventListener("change",calc));
-$("saveBtn").addEventListener("click",save);$("newBtn").addEventListener("click",fresh);
-const old=localStorage.getItem("fuel_last");if(old)try{renderHistory(JSON.parse(old))}catch(e){}
-calc();
-if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
+function recalc(){refresh()}
+document.querySelectorAll('input,select').forEach(el=>el.addEventListener('input',recalc));document.querySelectorAll('input[name="altChoice"]').forEach(el=>el.addEventListener('change',recalc));
+$('swapBtn').addEventListener('click',()=>{const a=$('origin').value,b=$('dest').value;$('origin').value=b;$('dest').value=a;refresh()});
+$('newBtn').addEventListener('click',()=>{['origin','dest','alt1','alt2','registration','pilot','flightNo','availableFuel'].forEach(id=>$(id).value='');$('cont').value=0;$('date').value=new Date(dateNow.getTime()-dateNow.getTimezoneOffset()*60000).toISOString().slice(0,10);document.querySelector('input[value="near"]').checked=true;refresh();$('msg').textContent='Nuevo vuelo listo.'});
+function getHistory(){try{return JSON.parse(localStorage.getItem('fuel_history_v2')||'[]')}catch(e){return []}}
+function save(){const c=window.currentCalc;if(!c||c.od==null){$('msg').textContent='Completa origen y destino para guardar el vuelo.';return}const item={id:Date.now(),fecha:$('date').value||new Date().toISOString().slice(0,10),hora:new Date().toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit'}),aeronave:$('aircraft').value,matricula:$('registration').value,piloto:$('pilot').value,flightNo:$('flightNo').value,operation:$('operation').value,origin:c.origin,dest:c.dest,od:c.od,alt:c.altChoice==='near'?c.alt1:c.alt2,minimum:c.minimum,total:c.total,available:c.available,margin:c.available==null?null:c.available-c.total,details:c};let h=getHistory().filter(x=>x.id!==item.id);h.unshift(item);h=h.slice(0,20);localStorage.setItem('fuel_history_v2',JSON.stringify(h));renderHistory();$('msg').textContent='Vuelo guardado en este dispositivo. Se conservan máximo 20.'}
+function renderHistory(){const h=getHistory();$('historyBody').innerHTML=h.map((x,i)=>`<tr><td>${i+1}</td><td>${x.fecha}<br><span class="muted">${x.hora||''}</span></td><td>${x.aeronave||'—'}</td><td class="strong">${x.origin||'—'} → ${x.dest||'—'}</td><td class="right">${x.od!=null?fmt(x.od):'—'}</td><td>${x.alt||'—'}</td><td class="right">${fmt(x.minimum)}</td><td class="right">${x.available==null?'—':fmt(x.available)}</td><td class="right ${x.margin!=null&&x.margin<0?'bad':''}">${x.margin==null?'—':(x.margin>=0?'+':'')+fmt(x.margin)}</td><td><div class="history-actions"><button class="secondary mini" onclick="viewFlight(${x.id})">Ver</button><button class="danger mini" onclick="deleteFlight(${x.id})">🗑</button></div></td></tr>`).join('');$('emptyHistory').classList.toggle('hidden',h.length>0)}
+window.deleteFlight=id=>{if(!confirm('¿Eliminar este vuelo del historial?'))return;localStorage.setItem('fuel_history_v2',JSON.stringify(getHistory().filter(x=>x.id!==id)));renderHistory()};window.viewFlight=id=>{const x=getHistory().find(y=>y.id===id);if(!x)return;alert(`VUELO ${x.origin} → ${x.dest}\nFecha: ${x.fecha}\nAeronave: ${x.aeronave}\nAlterno: ${x.alt}\nMínimo requerido: ${fmt(x.minimum)} GL\nCombustible abordo: ${x.available==null?'No registrado':fmt(x.available)+' GL'}\nMargen: ${x.margin==null?'No registrado':(x.margin>=0?'+':'')+fmt(x.margin)+' GL'}`)};
+$('clearHistory').addEventListener('click',()=>{if(!getHistory().length)return;if(confirm('¿Eliminar los 20 registros o los que existan actualmente?')){localStorage.removeItem('fuel_history_v2');renderHistory()}});
+$('pdfBtn').addEventListener('click',()=>{document.title='Diego Fuel Planner - Plan de Combustible';window.print()});
+function clock(){const d=new Date();$('clock').textContent=d.toLocaleDateString('es-CO',{weekday:'short',day:'2-digit',month:'short',year:'numeric'})+' · '+d.toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit'})}setInterval(clock,1000);clock();renderHistory();refresh();
 </script>
 </body></html>
