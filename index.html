@@ -140,7 +140,11 @@ function distanceFor(a,b,key){const g=greatCircle(a,b);return g!=null?g:manualDi
 function refresh(){
  const o=setInfo('origin','originInfo'),d=setInfo('dest','destInfo'),a1=setInfo('alt1','alt1Info','alt1Nm'),a2=setInfo('alt2','alt2Info','alt2Nm');
  const od=distanceFor(o,d,'od'),n1=distanceFor(d,a1,'alt1'),n2=distanceFor(d,a2,'alt2');
- $('manualBox').classList.toggle('hidden',od!=null&&n1!=null&&n2!=null);['od','alt1','alt2'].forEach(k=>$(k+'Manual').classList.toggle('hidden', (k==='od'?od:k==='alt1'?n1:n2)!=null));
+ const odAuto=greatCircle(o,d), n1Auto=greatCircle(d,a1), n2Auto=greatCircle(d,a2);
+ $('manualBox').classList.toggle('hidden',odAuto!=null&&n1Auto!=null&&n2Auto!=null);
+ $('odManual').classList.toggle('hidden',odAuto!=null);
+ $('alt1Manual').classList.toggle('hidden',n1Auto!=null);
+ $('alt2Manual').classList.toggle('hidden',n2Auto!=null);
  $('odNm').textContent=od!=null?fmt(od)+' NM':'—';$('routeOdCode').textContent=(o?.icao||'—')+' → '+(d?.icao||'—');$('routeOdNm').textContent=od!=null?fmt(od):'—';$('routeOdTime').textContent=od!=null?timeFromNm(od):'00:00';$('routeOdGl').textContent=od!=null?fmt(od/num('speed')*num('burn')):'0,00';
  const calcRow=(prefix,nm)=>{$('route'+prefix+'Nm').textContent=nm!=null?fmt(nm):'—';$('route'+prefix+'Time').textContent=nm!=null?timeFromNm(nm):'00:00';const gl=nm!=null?nm/num('speed')*num('burn'):0;$('route'+prefix+'Gl').textContent=fmt(gl)};
  $('routeAlt1Code').textContent=a1?.icao||'—';$('routeAlt2Code').textContent=a2?.icao||'—';calcRow('Alt1',n1);calcRow('Alt2',n2);calcFuel(od,n1,n2,o,d,a1,a2);
